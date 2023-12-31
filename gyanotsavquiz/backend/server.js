@@ -72,6 +72,59 @@ const randomIntArrayInRange = (min, max, n = 1) =>{
 
 app.get("/questions", async(req, res) => {
 
+     if(!category.equals("1"))
+  {
+
+    var table_name = "category${category}"
+
+
+    //code for displaying questions
+    for(var i= 1;i<=3;i++){
+      document.write("level${i}")
+
+      const query = 'SELECT COUNT(*) as rowCount FROM table_name';
+
+      connection.query(query, (error, results, fields) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+      
+        // Access the result
+        const rowCount = results[0].rowCount;
+        
+      });
+
+        if(i!=3)
+        { var n=4}
+        else
+        { var n=2}
+
+      let arr=randomIntArrayInRange(1,rowCount,n)
+    try {
+        const data = await connection.promise().query( 
+          `SELECT question_id,question,option1,option2,option3,option4 from ${table_name} where question_id in (${arr}) and level=${i}`
+        );
+        console.log(arr);
+        res.status(200).json(data[0]);
+      } catch (err) {
+        res.status(500).json({
+          message: err,
+        });
+      }
+
+      
+      
+    }
+    
+  }
+
+  else
+  {
+    // code for category 1(technical)
+  }
+  /*
+
     let arr=randomIntArrayInRange(1,9,5)
     try {
         const data = await connection.promise().query( 
@@ -84,6 +137,8 @@ app.get("/questions", async(req, res) => {
           message: err,
         });
       }
+  */
+
 });
 
 app.post("/answer",async(req,res)=>{
