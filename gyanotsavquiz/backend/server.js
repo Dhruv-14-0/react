@@ -1,21 +1,22 @@
 import express from 'express';
 import mysql from 'mysql2';
-// import cors from 'cors'
+import cors from 'cors'
 const app =express();
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header('Access-Control-Allow-Origin', '*');
+//   next();
+// });
 
 app.use(express.json());
-// app.use(cors)
+app.use(cors())
 const connection = mysql.createPool({
     host: "localhost",
     user: "root",
     password: "",
     database: "quiz",
   });
+
 
 
 app.get('/',(req,res)=>{
@@ -47,6 +48,24 @@ app.get("/questions", async(req, res) => {
         });
       }
 });
+
+app.post("/answer",async(req,res)=>{
+  // console.log(req.body);
+  const queId=Object.keys(req.body)
+  const ans=Object.values(req.body)
+  console.log(queId);
+  console.log(ans);
+  const data = await connection.promise().query( 
+    `SELECT correct_option from questions where question_id in (${queId})`
+  );
+  console.log(data[0]);
+  let correct_answers=0
+
+  for(let i=0;i<5;i++){
+    if(data[0][i].correct_option==ans[i]) correct_answers++;
+  }
+  console.log(correct_answers);
+})
 
 app.listen(5000,()=>{
 console.log("Server listening in http://localhost:5000")
