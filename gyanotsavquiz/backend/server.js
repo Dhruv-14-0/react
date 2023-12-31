@@ -1,7 +1,12 @@
 import express from 'express';
 import mysql from 'mysql2';
 import cors from 'cors'
+import bodyParser from 'body-parser';
+
 const app =express();
+
+const port = 3000;
+
 
 // app.use((req, res, next) => {
 //   res.header('Access-Control-Allow-Origin', '*');
@@ -10,6 +15,9 @@ const app =express();
 
 app.use(express.json());
 app.use(cors())
+
+app.use(bodyParser.urlencoded({ extended: true })); // Use body-parser for form data
+
 const connection = mysql.createPool({
     host: "localhost",
     user: "root",
@@ -17,6 +25,35 @@ const connection = mysql.createPool({
     database: "quiz",
   });
 
+
+// Define a route to serve the registration form
+app.get('/register', (req, res) => {
+  res.sendFile(__dirname + '/public/register.html');
+});
+
+// Define a route to handle registration form submissions
+app.post('/register', (req, res) => {
+  const { username, email, cs, ss, ph, category } = req.body;
+
+  // Insert the form values into the MySQL table
+  connection.query(
+    'INSERT INTO student (name, email, school, std, phone_number, category) VALUES (?, ?, ?, ?, ?, ?)',
+    [username, email, cs, ss, ph, category],
+    (error, results, fields) => {
+      if (error) {
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+
+      // Successful insertion
+      return res.status(200).json({ message: 'Registration successful' });
+    }
+  );
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
 
 
 app.get('/',(req,res)=>{
