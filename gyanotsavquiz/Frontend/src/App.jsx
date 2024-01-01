@@ -2,9 +2,10 @@ import { useState,useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Question from './Components/question'
+import Question from './Components/Question'
 import axios, { Axios } from 'axios'
-import questionInfo from './questionInfo'
+import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 
 
@@ -13,35 +14,50 @@ function App() {
   const [answer,setAnswers] = useState({
     
   })
+  const location = useLocation();
+  const data=location.state;
+  console.log(data);
   
   useEffect(()=>{
-    axios.get('http://localhost:5000/questions').then((res) => setQuestions(res.data))
+    axios.get(`http://localhost:5000/questions/${data.category}`).then((res) => setQuestions(res.data))
   },[]);
+
+  
+  const handleChange = (event)=>{
+    const name=event.target.name;
+    const value = event.target.value;
+    setAnswers(values => ({...values,[name]: value}))
+  }
+  
+    
+  const navigate=useNavigate();
+
+  const handleSubmit = (event)=>{
+    event.preventDefault();
+    // console.log(answer);
+    axios.post('http://localhost:5000/answer',{answer,data})
+    .then(res => {
+      console.log(res.data);
+      navigate('/result',{state:res.data})
+    })
+    .catch(err => console.log(err))
+  }
+
+
+
+  console.log(questions);
   if (questions.length<4)
     return (
       <div>
           <h1> Pleses wait some time.... </h1>
       </div>
     );
-
-    const handleChange = (event)=>{
-      const name=event.target.name;
-      const value = event.target.value;
-      setAnswers(values => ({...values,[name]: value}))
-    }
-    const handleSubmit = (event)=>{
-      event.preventDefault();
-      // console.log(answer);
-      axios.post('http://localhost:5000/answer',answer)
-      .then(res => console.log("Dhruv",res))
-      .catch(err => console.log(err))
-    }
   return (
     <>
       <div className='w-full bg-cover h-screen'
         >
           <div className='w-full'>
-            <div className='w-auto max-w-lg mx-auto my-auto border border-gray-600 rounded-lg p-5 backdrop-blur-sm bg-white/70'>
+            <div className='w-auto max-w-2xl mx-auto my-auto border border-gray-600 rounded-lg p-5 backdrop-blur-sm bg-white/70'>
               <form action="" onSubmit={handleSubmit}>
                 <div className='mt-3'>
                   <Question queNo={1} question={questions[0].question} option1={questions[0].option1} option2={questions[0].option2} option3={questions[0].option3} option4={questions[0].option4 } question_id={questions[0].question_id} handleChange={handleChange}/>

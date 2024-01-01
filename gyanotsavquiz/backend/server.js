@@ -33,38 +33,56 @@ const randomIntArrayInRange = (min, max, n = 1) =>{
   return a;
 }
 
-app.get("/questions", async(req, res) => {
+app.get("/questions/:category", async(req, res) => {
 
-    let arr=randomIntArrayInRange(1,9,5)
+  const category = 'category'+req.params.category;
+  console.log(category);
+  let rowCount=0;
+
+  if(category==='category1'){
+    rowCount=91
+  }else if(category==='categor2'){
+    rowCount=94
+  }
+  else{
+    rowCount=23
+  }
+  console.log(52);
+  let arr=randomIntArrayInRange(1,rowCount,5)
     try {
         const data = await connection.promise().query( 
-          `SELECT question_id,question,option1,option2,option3,option4 from questions where question_id in (${arr})`
+          `SELECT question_id,question,option1,option2,option3,option4 from ${category} where question_id in (${arr})`
         );
-        console.log(arr);
+        console.log(data);
         res.status(200).json(data[0]);
       } catch (err) {
-        res.status(500).json({
+        res.status(500).json(
+          {
           message: err,
         });
       }
 });
 
 app.post("/answer",async(req,res)=>{
-  // console.log(req.body);
-  const queId=Object.keys(req.body)
-  const ans=Object.values(req.body)
+  console.log(req.body);
+  const queId=Object.keys(req.body.answer)
+  const ans=Object.values(req.body.answer)
+  const category='category'+req.body.data.category;
   console.log(queId);
   console.log(ans);
+  
+  console.log(req.body.data.category);
   const data = await connection.promise().query( 
-    `SELECT correct_option from questions where question_id in (${queId})`
+    `SELECT correct_option from ${category} where question_id in (${queId})`
   );
-  console.log(data[0]);
+  console.log(data);
   let correct_answers=0
 
-  for(let i=0;i<5;i++){
+  for(let i=0;i<ans.length;i++){
     if(data[0][i].correct_option==ans[i]) correct_answers++;
   }
-  console.log(correct_answers);
+  console.log(correct_answers)
+  res.json(correct_answers)
 })
 
 app.listen(5000,()=>{
