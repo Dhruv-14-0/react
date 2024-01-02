@@ -1,6 +1,4 @@
 import { useState,useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Question from './Components/Question'
 import axios, { Axios } from 'axios'
@@ -11,16 +9,18 @@ import { useLocation } from 'react-router-dom'
 
 function App() {
   const [questions,setQuestions] = useState([])
-  const [answer,setAnswers] = useState({
-    
-  })
+  const [answer,setAnswers] = useState({})
+  const [time,setTime] = useState(0);
+  // const [isActive,setIsActive] = useState(false)
   const location = useLocation();
   const data=location.state;
   console.log(data);
-  
   useEffect(()=>{
     axios.get(`http://localhost:5000/questions/${data.category}`).then((res) => setQuestions(res.data))
+    setTime(new Date())
+    console.log(time);
   },[]);
+
 
   
   const handleChange = (event)=>{
@@ -29,13 +29,15 @@ function App() {
     setAnswers(values => ({...values,[name]: value}))
   }
   
-    
   const navigate=useNavigate();
 
   const handleSubmit = (event)=>{
     event.preventDefault();
     // console.log(answer);
-    axios.post('http://localhost:5000/answer',{answer,data})
+    let endTime=new Date()
+    console.log(endTime);
+    const completeTime=Math.floor(endTime.getTime()-time.getTime())/1000;
+    axios.post('http://localhost:5000/answer',{answer,data,completeTime})
     .then(res => {
       console.log(res.data);
       navigate('/result',{state:res.data})
@@ -46,18 +48,30 @@ function App() {
 
 
   console.log(questions);
+  // useEffect(()=>{
+  //   let interval=null;
+  //   if(isActive){
+  //     interval=setInterval(()=>{
+  //       setTimer((time)=>time+10)
+  //     },10)
+  //   }
+  //   else{
+  //     clearInterval(interval)
+  //   }
+  // },[isActive])
   if (questions.length<4)
     return (
       <div>
           <h1> Pleses wait some time.... </h1>
       </div>
     );
+
   return (
     <>
-      <div className='w-full bg-cover h-screen'
-        >
+      <div className='w-full bg-cover h-screen'>
           <div className='w-full'>
-            <div className='w-auto max-w-2xl mx-auto my-auto border border-gray-600 rounded-lg p-5 backdrop-blur-sm bg-white/70'>
+            <div className='w-auto max-w-2xl mx-auto my-auto border border-gray-600 rounded-lg p-5 backdrop-blur-sm bg-black/70'>
+            {/* <div> <Timer time={time} /></div> */}
               <form action="" onSubmit={handleSubmit}>
                 <div className='mt-3'>
                   <Question queNo={1} question={questions[0].question} option1={questions[0].option1} option2={questions[0].option2} option3={questions[0].option3} option4={questions[0].option4 } question_id={questions[0].question_id} handleChange={handleChange}/>
@@ -75,7 +89,7 @@ function App() {
                 <Question queNo={5} question={questions[4].question} option1={questions[4].option1} option2={questions[4].option2} option3={questions[4].option3} option4={questions[4].option4} question_id={questions[4].question_id} handleChange={handleChange}/>
                 </div >
                 <div className='w-full flex justify-center m-2'>
-                  <button type='submit' className='w-auto bg-white p-2 rounded-lg '>Submit</button> 
+                  <button type='submit' className='w-auto bg-blue-500 p-2 rounded-lg hover:bg-blue-900 text-white'>Submit</button> 
                 </div>
               </form>
             </div>

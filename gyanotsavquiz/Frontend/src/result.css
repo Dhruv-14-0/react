@@ -1,4 +1,4 @@
-html {
+/* html {
     box-sizing: border-box;
     height: 100%;
 }
@@ -7,18 +7,18 @@ body {
     font-family: "Proxima Nova Soft Semibold", "Proxima Nova", 'Helvetica Neue', Helvetica, Arial;
 }
 
-body,
-.wrapper {
+body,.wrapper {
     min-height: 100vh;
-}
+} */
 
 .wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url("./Cong.gif");
+    background-image: url("./Images/Cong.gif");
     background-repeat: no-repeat;
     background-size: cover;
+    min-height: 100vh;
 }
 
 .modal {

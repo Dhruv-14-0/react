@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom/client'
 import { Route, RouterProvider, createBrowserRouter,createRoutesFromElements,BrowserRouter, Routes } from 'react-router-dom'
 import App from './App.jsx'
 import './index.css'
-import Result from './Result.jsx'
 import Layout from './Layout.jsx'
 import SignUp from './SignUp.jsx'
+import Result from './Result.jsx'
 
 // const router=createBrowserRouter(
 //   createRoutesFromElements(

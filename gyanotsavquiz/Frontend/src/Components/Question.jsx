@@ -12,7 +12,7 @@ function Question({
 }) {
     return (
         <div className=''>
-            <div className='py-3 text-black'>
+            <div className='py-3 text-white ml-2'>
                 <p>{queNo} : {question}</p>
             </div>
             <ul className="w-auto text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">

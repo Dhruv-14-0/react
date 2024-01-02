@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --light-white: #f5f8fa;
+    --gray: #5e6278;
+    --gray-1: #e3e3e3;
+}
+
+.body {
+    min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(#1b4f7f, #9198e5);
+}
+
+.wrapper2 {
+    width: 100%;
+    max-width: 500px;
+    /* Adjust for responsiveness */
+    margin: 50px;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0 10px;
+    /* min-height: 100%; */
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 0 60px;
+}
+
+.wrapper input {
+    background-color: var(--light-white);
+    border-color: var(--light-white);
+    color: var(--gray-1);
+}
+
+.wrapper input:focus {
+    box-shadow: none;
+}
+/* General styling */
+
+.form-floating {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.form-floating>label {
+    transform: translateY(-0.5rem);
+    font-size: 0.85rem;
+    /* Slightly smaller for better alignment */
+}
+/* Input fields */
+
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1rem;
+}
+/* Focused input field */
+
+.form-control:focus {
+    border-color: #555;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+/* Select element */
+
+.form-select {
+    height: 38px;
+    /* Consistent height with input fields */
+    padding: 6px 12px;
+    border-radius: 5px;
+}
+/* Submit button */
+
+.submit_btn {
+    width: 100%;
+    margin-top: 40px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+/* Additional styling */
+
+.text-center {
+    text-align: center;
+}
+
+.fw-bolder {
+    font-weight: bolder;
+}
+
+.text-primary {
+    color: #007bff;
+}
+
+.rounded {
+    border-radius: 10px;
+    /* More rounded corners for the form */
+}
+/* Responsiveness */
+
+@media (max-width: 768px) {
+    .col-sm-8,
+    .col-lg-6,
+    .col-xl-4 {
+        width: 100%;
+    }
+}
