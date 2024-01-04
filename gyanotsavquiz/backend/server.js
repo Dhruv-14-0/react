@@ -48,7 +48,7 @@ app.get("/questions/:category", async(req, res) => {
     rowCount=23
   }
   console.log(52);
-  let arr=randomIntArrayInRange(1,rowCount,5)
+  let arr=randomIntArrayInRange(1,rowCount,10)
     try {
         const data = await connection.promise().query( 
           `SELECT question_id,question,option1,option2,option3,option4 from ${category} where question_id in (${arr})`
@@ -82,6 +82,21 @@ app.post("/answer",async(req,res)=>{
     if(data[0][i].correct_option==ans[i]) correct_answers++;
   }
   console.log(correct_answers)
+  let timeIq=0
+  const completeTime=Math.floor(req.body.completeTime);
+  if(completeTime<=120){
+    timeIq=10
+  }
+  else {
+    timeIq=10-(completeTime-120)/20
+  }
+  const iq=parseFloat(.6*correct_answers+.4*timeIq).toFixed(2);
+  let details=[req.body.data.username,req.body.data.cs,req.body.data.ss,correct_answers,completeTime,req.body.data.ph,req.body.data.email,iq,req.body.data.category]
+  let query1='insert into student(name,school,std,score,time,phone_number,email,IQ,category) values (?)'
+  console.log(query1); 
+  const student=await connection.promise().query(
+    query1,[details]
+  )
   res.json(correct_answers)
 })
 

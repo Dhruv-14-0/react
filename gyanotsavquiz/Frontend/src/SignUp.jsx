@@ -130,17 +130,17 @@ function SignUp() {
 
                 {/* Form */}
                 <form className="rounded-lg bg-gray-500 bg-opacity-70 shadow-gray-500 shadow-lg p-5" onSubmit={handleSubmit} autoComplete='off'>
-                    <h3 className="text-dark font-bold text-lg mb-2">Welcome to our website</h3>
+                    <h3 className="text-dark font-bold text-lg mb-2">Welcome to Byte Brain Challenge</h3>
 
                     {/* New user message */}
-                    <div className="text-gray-500 mb-4">
+                    <div className="text-white mb-4">
                         New Here?
                         <div className="text-blue-500 font-bold cursor-pointer">Fill up your details here...</div>
                     </div>
 
                     {/* User details inputs */}
                     <div className="mb-3">
-                        <input type="name" name="username" className="form-input w-full px-4 py-2 border rounded" placeholder="Your Name" required onChange={handleChange} autoComplete='off' />
+                        <input type="text" name="username" className="form-input w-full px-4 py-2 border rounded" placeholder="Your Name" required onChange={handleChange} autoComplete='off' />
                     </div>
                     <div className="mb-3">
                         <input type="email" name="email" className="form-input w-full px-4 py-2 border rounded" placeholder="name@example.com" required onChange={handleChange} autoComplete='off' />
@@ -159,9 +159,9 @@ function SignUp() {
                     <div className="mb-3">
                         <select className="form-select w-full px-4 py-2 border rounded" defaultValue={"select the category"} required onChange={handleChange} name='category'>
                             <option className="">Select the category</option>
-                            <option value="1">Technical</option>
-                            <option value="2">General</option>
-                            <option value="3">History</option>
+                            <option value={1}>Technical</option>
+                            <option value={2}>General</option>
+                            <option value={3}>History</option>
                         </select>
                     </div>
 

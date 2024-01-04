@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import './result.css'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -9,6 +9,10 @@ function Result() {
   const location = useLocation();
   const data = location.state
   console.log("result")
+  const navigate = useNavigate()
+  const handleclick = ()=>{
+    navigate('/')
+  }
   return (
     <div className="wrapper">
         <div className="modal modal--congratulations">
@@ -19,6 +23,10 @@ function Result() {
 
                 <div className="modal-score">Your Score: <span className="final-score"> {data}</span>
                 </div>
+                <div className='flex justify-center mt-2'>
+                  <button className='bg-blue-500 text-white rounded-lg p-2 mt' onClick={handleclick}>Home page</button>
+                </div>
+                
             </div>
         </div>
     </div>
